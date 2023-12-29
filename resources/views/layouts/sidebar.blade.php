@@ -2,7 +2,6 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <style>
@@ -279,6 +278,14 @@
           <a href="{{ route('weather') }}">
             <i class='bx bx-cloud-light-rain' ></i>
             <span class="link_name">Weather Updates</span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="{{ route('runPython') }}">
+            <i class='bx bx-pie-chart-alt-2' ></i>
+            <span class="link_name">Python Script</span>
           </a>
         </div>
       </li>

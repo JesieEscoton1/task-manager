@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\PythonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::post('/updateTask', [ApiController::class, 'update'])->name('update');
 Route::get('/deleteTask', [ApiController::class, 'destroy'])->name('delete');
 Route::get('/previewTask', [ApiController::class, 'preview'])->name('preview');
 Route::get('/weatherUpdate', [ApiController::class, 'weather'])->name('weather');
+
+Route::get('/run-python', [PythonController::class, 'runPython'])->name('runPython');
+Route::post('/execute-python', [PythonController::class, 'executeScript'])->name('executePython');
