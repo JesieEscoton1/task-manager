@@ -1,47 +1,40 @@
 import requests
-import json
-import sys
+from flask import Flask, request, jsonify
 
-CF_API_TOKEN = 'abcdef1234567890abcdef1234567890'
-ZONE_ID = 'a1bcbdf0472d2c9bc5389a4b539409e7'
-RECORD_ID = '1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6'
-CF_EMAIL = 'privacydata@mail.com'
-CF_API_KEY = '72abf7367b18b88153d7b021b6c1292953412'
+app = Flask(__name__)
 
-CF_IP_ADDRESS = '143.44.184.72'
+@app.route('/save-python-endpoint', methods=['POST'])
+def process_request():
+    data = request.json
 
-try:
-    if not RECORD_ID:
-        resp = requests.get(
-            f'https://{CF_IP_ADDRESS}/{ZONE_ID}/mesmantel.com/dns/records',
-            headers={
-                'X-Auth-Key': CF_API_KEY,
-                'X-Auth-Email': CF_EMAIL
-            },
-            timeout=10
-        )
-        data = resp.json()
-        print(json.dumps(data, indent=4, sort_keys=True))
-        print('Please find the DNS record ID you would like to update and enter the value into the script')
-        sys.exit(0)
+    api_token = data.get('api_token')
+    zone_id = data.get('zone_id')
+    email = data.get('email')
+    type = data.get('type')
+    name = data.get('name')
+    content = data.get('content')
 
-    ip = '222.127.223.68'
+    cloudflare_api_url = f"https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records"
 
-    resp = requests.put(
-        f'https://{CF_IP_ADDRESS}/{ZONE_ID}/mesmantel.com/dns/records',
-        json={
-            'type': 'A',
-            'name': 'mesmantel.com',
-            'content': ip,
-            'proxied': False
-        },
-        headers={
-            'X-Auth-Key': CF_API_KEY,
-            'X-Auth-Email': CF_EMAIL
-        }
-    )
-    resp.raise_for_status()
-    print(f'Updated DNS record for {ip}')
-except requests.RequestException as e:
-    print(f'Error: {e}')
-    sys.exit(1)
+    headers = {
+        'Content-Type': 'application/json',
+        'X-Auth-Email': email,
+        'X-Auth-Key': api_token,
+        'Authorization': f'Bearer {api_token}',
+    }
+
+    dns_data = {
+        'type': type,
+        'name': name,
+        'content': content,
+    }
+
+    try:
+        response = requests.post(cloudflare_api_url, json=dns_data, headers=headers)
+        response.raise_for_status()
+        return jsonify({'success': True, 'output': response.json()}), response.status_code
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(port=5000)

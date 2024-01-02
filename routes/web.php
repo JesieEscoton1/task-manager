@@ -29,4 +29,6 @@ Route::get('/previewTask', [ApiController::class, 'preview'])->name('preview');
 Route::get('/weatherUpdate', [ApiController::class, 'weather'])->name('weather');
 
 Route::get('/run-python', [PythonController::class, 'runPython'])->name('runPython');
-Route::post('/execute-python', [PythonController::class, 'executeScript'])->name('executePython');
+Route::post('/add-dns-record', [PythonController::class, 'addDnsRecord'])->name('addDnsRecord');
+Route::get('/get-dns-record/{id}', [PythonController::class, 'getDnsRecordDetailsById']); 
+Route::post('/update-dns-record', [PythonController::class, 'updateDnsRecord'])->name('updateDnsRecord');
