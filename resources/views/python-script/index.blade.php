@@ -13,7 +13,6 @@
 <body>
     @include('layouts.sidebar')
 
-    <h1>Run Python Script</h1>
     @if(isset($output) && is_array($output))
     <div>
         <strong>Output:</strong>

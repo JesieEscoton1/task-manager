@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PythonController;
+use App\Http\Controllers\LibraryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,12 @@ Route::get('/run-python', [PythonController::class, 'runPython'])->name('runPyth
 Route::post('/add-dns-record', [PythonController::class, 'addDnsRecord'])->name('addDnsRecord');
 Route::get('/get-dns-record/{id}', [PythonController::class, 'getDnsRecordDetailsById']); 
 Route::post('/update-dns-record', [PythonController::class, 'updateDnsRecord'])->name('updateDnsRecord');
+
+Route::get('/previewLibrary', [LibraryController::class, 'index'])->name('index.library');
+Route::post('/addFolders', [LibraryController::class, 'create'])->name('create.library');
+Route::get('/get-folders', [LibraryController::class, 'getFolders'])->name('getFolders.library');
+Route::get('/delete-folder', [LibraryController::class, 'destroy'])->name('deleteFolders.library');
+Route::post('/upload-image', [LibraryController::class, 'uploadImage'])->name('uploadImage.library');
+Route::get('/getImages/library', [LibraryController::class, 'getImages'])->name('getImages.library');
+Route::get('/deleteImage', [LibraryController::class, 'deleteImage'])->name('deleteImage.library');
+Route::post('/editFolder', [LibraryController::class, 'editFolder'])->name('editFolder.library');

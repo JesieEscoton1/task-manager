@@ -289,6 +289,14 @@
           </a>
         </div>
       </li>
+      <li>
+        <div class="iocn-link">
+          <a href="{{ route('index.library') }}">
+            <i class='bx bx-library' ></i>
+            <span class="link_name">Library</span>
+          </a>
+        </div>
+      </li>
     <li>
     <div class="profile-details">
       <div class="profile-content">
