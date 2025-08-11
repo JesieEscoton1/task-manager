@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PythonController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +44,14 @@ Route::post('/upload-image', [LibraryController::class, 'uploadImage'])->name('u
 Route::get('/getImages/library', [LibraryController::class, 'getImages'])->name('getImages.library');
 Route::get('/deleteImage', [LibraryController::class, 'deleteImage'])->name('deleteImage.library');
 Route::post('/editFolder', [LibraryController::class, 'editFolder'])->name('editFolder.library');
+// Chatbot
+Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot.index');
+Route::post('/chatbot/start', [ChatbotController::class, 'start'])->name('chatbot.start');
+Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
+
+// Stripe Test
+Route::get('/stripe', [StripeController::class, 'index'])->name('stripe.index');
+Route::post('/stripe/intent', [StripeController::class, 'createPaymentIntent'])->name('stripe.intent');
+Route::get('/stripe/payment-methods', [StripeController::class, 'paymentMethods'])->name('stripe.methods');
+Route::post('/stripe/setup-intent', [StripeController::class, 'createSetupIntent'])->name('stripe.setup-intent');
+Route::delete('/stripe/payment-method/{paymentMethodId}', [StripeController::class, 'detachPaymentMethod'])->name('stripe.detach');

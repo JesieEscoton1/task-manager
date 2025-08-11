@@ -275,9 +275,33 @@
       </li>
       <li>
         <div class="iocn-link">
+          <a href="{{ route('stripe.index') }}">
+            <i class='bx bx-credit-card' ></i>
+            <span class="link_name">Stripe Test</span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="{{ route('stripe.methods') }}">
+            <i class='bx bx-id-card' ></i>
+            <span class="link_name">Payment Methods</span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="iocn-link">
           <a href="{{ route('weather') }}">
             <i class='bx bx-cloud-light-rain' ></i>
             <span class="link_name">Weather Updates</span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="{{ route('chatbot.index') }}">
+            <i class='bx bx-message-dots' ></i>
+            <span class="link_name">Chatbot</span>
           </a>
         </div>
       </li>

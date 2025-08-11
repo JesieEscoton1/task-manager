@@ -31,4 +31,19 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'helpdesk' => [
+        'webhook_url' => env('HELPDESK_WEBHOOK_URL'),
+        'api_key' => env('HELPDESK_API_KEY'),
+    ],
+    
+    'translator' => [
+        'provider' => env('TRANSLATOR_PROVIDER', 'none'),
+        'api_key' => env('TRANSLATOR_API_KEY'),
+    ],
+    
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+    
 ];
