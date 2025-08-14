@@ -77,14 +77,14 @@
         if (!resp.ok) {
           throw new Error(data.message || 'Failed to create SetupIntent');
         }
-        const { error } = await stripe.confirmCardSetup(data.clientSecret, {
+        const { error, setupIntent } = await stripe.confirmCardSetup(data.clientSecret, {
           payment_method: { card: cardElement }
         });
         if (error) {
           errorMessage.textContent = error.message || 'Setup failed';
         } else {
-          successMessage.classList.remove('d-none');
-          setTimeout(() => window.location.reload(), 800);
+          // Redirect to success page with setup intent ID
+          window.location.href = "{{ route('stripe.success') }}?setup_intent=" + setupIntent.id;
         }
       } catch (err) {
         errorMessage.textContent = err.message || 'Unexpected error';

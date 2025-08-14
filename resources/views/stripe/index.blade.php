@@ -70,14 +70,15 @@
           throw new Error(data.message || 'Failed to create PaymentIntent');
         }
 
-        const { error } = await stripe.confirmCardPayment(data.clientSecret, {
+        const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
           payment_method: { card: cardElement }
         });
 
         if (error) {
           errorMessage.textContent = error.message || 'Payment failed';
         } else {
-          successMessage.classList.remove('d-none');
+          // Redirect to success page with payment intent ID
+          window.location.href = "{{ route('stripe.success') }}?payment_intent=" + paymentIntent.id;
         }
       } catch (err) {
         errorMessage.textContent = err.message || 'Unexpected error';

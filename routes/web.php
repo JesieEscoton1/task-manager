@@ -55,3 +55,5 @@ Route::post('/stripe/intent', [StripeController::class, 'createPaymentIntent'])-
 Route::get('/stripe/payment-methods', [StripeController::class, 'paymentMethods'])->name('stripe.methods');
 Route::post('/stripe/setup-intent', [StripeController::class, 'createSetupIntent'])->name('stripe.setup-intent');
 Route::delete('/stripe/payment-method/{paymentMethodId}', [StripeController::class, 'detachPaymentMethod'])->name('stripe.detach');
+Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
+Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
