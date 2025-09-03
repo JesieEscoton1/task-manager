@@ -209,12 +209,16 @@
         });
 
         function fetchAndDisplayImages(folderId) {
+            console.log('Fetching images for folder ID:', folderId);
+            
             axios.get('{{ route("getImages.library") }}', {
                 params: {
                     parentId: folderId,
                 }
             })
             .then(function (response) {
+                console.log('Images received:', response.data);
+                
                 // Clear existing images
                 $('#img-preview').empty();
 
@@ -225,9 +229,11 @@
                     for (var j = i; j < i + 6 && j < response.data.length; j++) {
                         var image = response.data[j];
                         var imageUrl = '{{ asset("storage/images/") }}/' + image.fileName;
+                        
+                        console.log('Processing image:', image.fileName, 'URL:', imageUrl);
 
                         var imgTag = '<div class="col-md-2 image-col " style="position: relative; margin-right: -8px;">' +
-                        '<img style="box-shadow: rgb(209, 202, 202) 0px 0px 5px 2px;" src="' + imageUrl + '" alt="' + image.fileName + '" class="img-thumbnail download-image" data-image-url="' + imageUrl + '" data-image-name="' + image.fileName + '">' +
+                        '<img style="box-shadow: rgb(209, 202, 202) 0px 0px 5px 2px;" src="' + imageUrl + '" alt="' + image.fileName + '" class="img-thumbnail download-image" data-image-url="' + imageUrl + '" data-image-name="' + image.fileName + '" onerror="console.error(\'Failed to load image:\', \'' + imageUrl + '\')" onload="console.log(\'Image loaded successfully:\', \'' + image.fileName + '\')">' +
                         '<button class="btn btn-danger btn-sm remove-btn" style="position: absolute; display: flex; justify-content: center; align-items: center; font-size: 0.6rem; top: -5px; right: 6px; width: 18px; height: 18px; border-radius: 10px; font-weight: bold; cursor: pointer;" data-image-id="' + image.id + '">X</button>' +
                         '<p class="text-center mt-2">' + image.fileName + '</p>' +
                         '</div>';
@@ -237,6 +243,8 @@
 
                     $('#img-preview').append(row);
                 }
+
+                console.log('Total images displayed:', response.data.length);
 
                 $('.image-col').hover(
                     function () {
@@ -294,12 +302,16 @@
             $('.remove-btn[data-image-id="' + imageId + '"]').closest('.col-md-2').remove();
         }
 
-        $('#tree-container').append('<input type="file" id="imageInput" accept="image/*" style="display: none;">');
+        $('#tree-container').append('<input type="file" id="imageInput" accept="image/jpeg,image/jpg,image/png,image/gif,image/bmp,image/webp" style="display: none;">');
 
         $('#imageInput').on('change', function () {
             var file = this.files[0];
             var parentId = $("#imageInput").data("folderId");
-            console.log('iddd:', parentId);
+            console.log('File selected:', file);
+            console.log('File type:', file.type);
+            console.log('File extension:', file.name.split('.').pop());
+            console.log('Parent ID:', parentId);
+            
             if (file && parentId) {
                 var formData = new FormData();
                 formData.append('image', file);
@@ -318,6 +330,9 @@
                 })
                 .catch(function (error) {
                     console.error('Error uploading image:', error);
+                    if (error.response && error.response.data) {
+                        console.error('Server error details:', error.response.data);
+                    }
                 });
             }
         });

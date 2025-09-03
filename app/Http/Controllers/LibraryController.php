@@ -67,10 +67,35 @@ class LibraryController extends Controller
             $image = $request->file('image');
             $parentId = $request->input('parentId');
 
+            // Get file information for debugging
+            $originalName = $image->getClientOriginalName();
+            $mimeType = $image->getMimeType();
+            $extension = $image->getClientOriginalExtension();
+            $size = $image->getSize();
+
+            // Log file information
+            \Log::info('Image upload attempt', [
+                'filename' => $originalName,
+                'mime_type' => $mimeType,
+                'extension' => $extension,
+                'size' => $size,
+                'parent_id' => $parentId
+            ]);
+
+            // Validate file type
+            $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+            if (!in_array($mimeType, $allowedMimeTypes)) {
+                \Log::warning('Invalid file type uploaded', ['mime_type' => $mimeType, 'filename' => $originalName]);
+                return response()->json(['success' => false, 'message' => 'Invalid file type. Only images are allowed.'], 400);
+            }
+
             // Use the original filename
-            $filename = $image->getClientOriginalName();
+            $filename = $originalName;
 
             $path = $image->storeAs('public/images', $filename);
+
+            // Log storage path
+            \Log::info('Image stored successfully', ['path' => $path, 'filename' => $filename]);
 
             Image::create([
                 'fileName' => $filename,
@@ -89,6 +114,13 @@ class LibraryController extends Controller
         $parentId = $request->input('parentId');
 
         $images = Image::where('parentId', $parentId)->get();
+
+        // Log the images being returned
+        \Log::info('Images retrieved for folder', [
+            'parent_id' => $parentId,
+            'count' => $images->count(),
+            'images' => $images->pluck('fileName')->toArray()
+        ]);
 
         return response()->json($images);
     }
