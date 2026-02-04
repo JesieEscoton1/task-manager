@@ -62,3 +62,4 @@ Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stri
 // Email Automation
 Route::get('/email-automation', [EmailAutomationController::class, 'index'])->name('email-automation.index');
 Route::post('/email-automation', [EmailAutomationController::class, 'store'])->name('email-automation.store');
+Route::delete('/email-automation/{id}', [EmailAutomationController::class, 'destroy'])->name('email-automation.destroy');

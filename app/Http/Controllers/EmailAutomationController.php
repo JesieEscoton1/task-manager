@@ -59,4 +59,20 @@ class EmailAutomationController extends Controller
 
         return back()->with('success', 'Email sent successfully.');
     }
+
+    /**
+     * Delete an email record.
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        $record = EmailAutomation::find($id);
+
+        if (!$record) {
+            return back()->with('error', 'Email record not found.');
+        }
+
+        $record->delete();
+
+        return back()->with('success', 'Email record deleted successfully.');
+    }
 }
