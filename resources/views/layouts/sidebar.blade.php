@@ -321,6 +321,14 @@
           </a>
         </div>
       </li>
+      <li>
+        <div class="iocn-link">
+          <a href="{{ route('email-automation.index') }}">
+            <i class='bx bx-mail-send' ></i>
+            <span class="link_name">Email Automation</span>
+          </a>
+        </div>
+      </li>
     <li>
     <div class="profile-details">
       <div class="profile-content">

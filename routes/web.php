@@ -6,6 +6,7 @@ use App\Http\Controllers\PythonController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\EmailAutomationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,3 +58,7 @@ Route::post('/stripe/setup-intent', [StripeController::class, 'createSetupIntent
 Route::delete('/stripe/payment-method/{paymentMethodId}', [StripeController::class, 'detachPaymentMethod'])->name('stripe.detach');
 Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook'])->name('stripe.webhook');
+
+// Email Automation
+Route::get('/email-automation', [EmailAutomationController::class, 'index'])->name('email-automation.index');
+Route::post('/email-automation', [EmailAutomationController::class, 'store'])->name('email-automation.store');
